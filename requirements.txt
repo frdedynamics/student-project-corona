@@ -4,3 +4,4 @@ tzlocal
 numpy
 scipy
 matplotlib
+pytest

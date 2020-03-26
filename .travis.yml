@@ -1,0 +1,19 @@
+language: python
+dist: xenial
+notifications:
+  slack:
+    secure: ce9ls/b/I4yQiut3dXM+thrE8RGOCqAWPxZ4+KddoeJLff4w/XnqMsH9JPdK2GZ+jClexPp4Rq+C2MA7ZgbzEd4W0W8HX7eNKyqU50X1mLHt8p5apFDpRhjlYRfvIL+zfG+5laH8eDaOiSgBzaHpI7vFsVZqM27y9IcujdlltgbhNzqf8uw4Xlgq1JOXaE+z/solG66BcSgi8BIYALx/w5bAKjIQVWG5ausM3f4+Nc+2PshCXwYXl9IMunR3bsKv4rBPpETVpAq39foqf+CeOpWIG7/d8O5ezn7aSEbS4yR484Ph1xoIQLaOcGQ6k5wyS+Sj1F98OvJmm3US1aiDZqigZJA1ynsnxfovSNTzHdAm/lDzUj/AnIf6jvnOF1TmTgDQ36Udkllo0ge00AfMdWvrDkQBBOL37g+pM8H4j/S3IoF8oXv/ll9m4UXpFoWcUFhkTgngG71NwNH04yjWVYIdbNd4VgOM7AsTy2k/huP/1jJHPf3Gvh2bnnj1xf4CfR6EJmIJuWEy5jfOU+Yy4//9j38s06pBTuiOMCf9tbeLiy+WDARw+cDvxXDQzAgjsMdZC6XUP+iFMsLztHyyWpUvgY1uD2cZyJwV/pGTTCqcAvp29WKk8eYsLZV8E7ZOTDe+FH5QHJxrA/eP08Gsn3eESk/U41J6qjgxqFjKryU=
+  on_success: change
+  on_failure: always
+matrix:
+  include:
+  - python: 3.7
+before_install:
+
+install:
+- pip install -r requirements.txt
+script:
+- pytest --cov=src --cov=test
+- flake8 . --exit-zero
+after_success:
+- coveralls

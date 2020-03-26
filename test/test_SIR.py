@@ -25,7 +25,7 @@ class TestSIR(TestCase):
         )
 
     def test_f(self):
-        self.assertTrue(True)
+        self.assertTrue(False)
         # self.fail(msg="Needs test.")
 
     def test_solve(self):

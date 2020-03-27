@@ -1,18 +1,5 @@
 language: python
-jobs:
-  include:
-    - os: linux
-      dist: xenial
-      python: 3.7
-      env: TOXENV=py37
-    - os: linux
-        dist: bionic
-        python: 3.7
-        env: TOXENV=py37
-    - os: linux
-        dist: eoan
-        python: 3.7
-        env: TOXENV=py37
+dist: xenial
 notifications:
   slack:
     secure: WWkxsamuGMgwxWywtGleaGdnjKbOC8DaJ0Dx96rPjiZW4JLWB4jKZQy/p9eMOOlGM0OTldK64UQOAPgrGEiQQV+y0lemAbMYTgJuxFTsAgZ1YC6smv/VVWLAPtdBW97UkB5S4rcIAc2AHTofDjxJIV9tW44TCA+108riH2bBhVpP5vt6hM64RycxEikl1pK2gmi5LD3y7Eo1g7Nwj5znqfK2OPYfEe/Xsdzvr95pdsVPWo+mL2xNfOmzAebZtGqhl0f54d0R61GD7Inz+aEJBJutNxnVa1qnGEMx7RVj1rFhXTe+mYsJKkCS7+mKhXkndvCAQelt4AT52DY7Purb4kCPA3wWmNPRBBlnpNPEr5fyf5GQnnyADaDJlEPnEiwrYVSJCMKT6H2Mb5BW9Ep5SQegSL2To6ddsaG/iQzmg+lR24j4agInQKPCn80oqAtbJxX/WPThNYeAjtagmWDpRFGtwhJRZGw0vz3pw7Leh8d+tA9z4C11ZG5eNzDY2ql6x0Ed2PV+sN7tGz8IrT3qdsWneBIPKHjClbaByr8Y3Rhgbv/RDXZ2eARZQI3cv/LRxeUmwB1oK9KuC1mP9ZMnRBoGChZnqgnFDxRRfgkuRUHbxzqc81tqYWZ1jmLoA1EujS+jhcZtfLK1ZHVsKEbEOFGWL7qoP/HEOhpg1xJEuGY=
@@ -21,7 +8,7 @@ notifications:
 matrix:
   include:
   - python: 3.7
-before_install:
+before_install: 
 install:
 - pip install -r requirements.txt
 script:

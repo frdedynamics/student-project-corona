@@ -1,5 +1,5 @@
 from unittest import TestCase
-from .context import src
+import src
 import app
 
 

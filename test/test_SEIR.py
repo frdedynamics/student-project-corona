@@ -1,5 +1,4 @@
 from unittest import TestCase
-from .context import src
 
 
 class TestSEIR(TestCase):

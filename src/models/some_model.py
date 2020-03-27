@@ -7,7 +7,7 @@ _LOGGER = logging.getLogger(__name__)
 logging.getLogger('matplotlib').setLevel('ERROR')
 
 
-class SIR2:
+class SIR:
 
     def __init__(self, total_population=5000000, I_0=1000, R_0=0,
                  average_number_of_people_infected_per_day_per_person=0.2, average_days_sick_per_person=7,

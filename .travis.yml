@@ -1,28 +1,8 @@
 language: python
 jobs:
   include:
-    - os: linux
-      dist: xenial
-      python: 3.7
-      env: TOXENV=py37
-    - os: linux
-      dist: xenial
-      python: 3.8
-      env: TOXENV=py38
-    - os: linux
-      dist: bionic
-      python: 3.7
-      env: TOXENV=py37
-    - os: linux
-      dist: bionic
-      python: 3.8
-      env: TOXENV=py38
     - os: osx
-      osx_image: xcode10
-      language: generic
-      env: PYTHON=36
-    - os: osx
-      osx_image: xcode10
+      osx_image: xcode11
       language: generic
       env: PYTHON=36
 notifications:

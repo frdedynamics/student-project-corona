@@ -4,9 +4,6 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
 
     # Install some custom requirements on macOS
     # e.g. brew install pyenv-virtualenv
-    brew update && brew upgrade python
-    alias python=/usr/local/bin/python3
-    echo python --version
 
     case "${TOXENV}" in
         py37)

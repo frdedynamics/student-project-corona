@@ -17,17 +17,19 @@ jobs:
          command: |
            pytest --cov=src --cov=test
            flake8 . --exit-zero
-      - run:
-          name: Coveralls
-          command: |
-            coveralls
   build-windows:
     executor: win/vs2019
     steps:
       - run:
-          name: Say hello
+          name: Install Python Dependencies
           command: |
-            echo Greetings!
+            choco install python --version 3.7.6
+            python -m pip install --upgrade pip
+      - run:
+          name: Run Unit Tests
+            command: |
+              pytest --cov=src --cov=test
+              flake8 . --exit-zero
 workflows:
   build-test:
     jobs:

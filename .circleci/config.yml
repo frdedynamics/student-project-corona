@@ -1,0 +1,37 @@
+version: 2.1
+orbs:
+  win: circleci/windows@1.0.0
+jobs:
+  build-linux:
+    docker:
+      - image: circleci/python:3.7.4
+    steps:
+      - checkout
+      - run:
+         name: Install Python Dependencies
+         command: |
+           pip install --user --upgrade pip
+           pip install -r requirements.txt
+      - run:
+         name: Run Unit Tests
+         command: |
+           pytest --cov=src --cov=test
+           flake8 . --exit-zero
+  build-windows:
+    executor: win/vs2019
+    steps:
+      - checkout
+      - run:
+          name: Install Python Dependencies
+          command: |
+            py -m pip install -r requirements.txt
+      - run:
+          name: Run Unit Tests
+          command: |
+            py -m pytest --cov=src --cov=test
+            py -m flake8 . --exit-zero
+workflows:
+  build-test:
+    jobs:
+      - build-linux
+      - build-windows

@@ -28,8 +28,8 @@ jobs:
       - run:
           name: Run Unit Tests
           command: |
-            pytest --cov=src --cov=test
-            flake8 . --exit-zero
+            py -m pytest --cov=src --cov=test
+            py -m flake8 . --exit-zero
 workflows:
   build-test:
     jobs:

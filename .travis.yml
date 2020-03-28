@@ -14,4 +14,7 @@ before_install:
 install:
   - ./.travis/install.sh
 script:
+  - pytest -p no:faulthandler --cov=src --cov=test
+  - flake8 . --exit-zero
 after_success:
+  - coveralls

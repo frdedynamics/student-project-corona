@@ -8,7 +8,7 @@ _LOGGER = logging.getLogger(__name__)
 
 def main():
     _LOGGER.debug("here goes.")
-    print("blubb")
+    print(config)
 
 
 if __name__ == '__main__':

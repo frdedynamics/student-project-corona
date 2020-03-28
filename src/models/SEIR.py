@@ -1,7 +1,10 @@
 import logging
+import os
 import numpy as np
 import matplotlib.pyplot as plt
+from src.config import get_config
 
+config = get_config()
 _LOGGER = logging.getLogger(__name__)
 logging.getLogger('matplotlib').setLevel('ERROR')
 
@@ -70,7 +73,10 @@ class SEIR:
 
         if draw:
             self.SEIR.legend(loc="upper right")
-            self.SEIR.show(block=False)
+            if config.get("user") == "ci":
+                self.SEIR.show(block=False)
+            else:
+                self.SEIR.show(block=True)
 
     def plot_with_social_distancing(self):
         if self.result_with_social_distancing is None:
@@ -83,7 +89,10 @@ class SEIR:
                        label="With social distancing (ρ = %.1f)" % self.rho)
 
         self.SEIR.legend(loc="upper right")
-        self.SEIR.show(block=False)
+        if config.get("user") == "ci":
+            self.SEIR.show(block=False)
+        else:
+            self.SEIR.show(block=True)
 
     def plot_config(self):
         self.SEIR.title("COVID-19 SEIR Model (α = %.1f, β = %.2f, γ = %.1f)\nPopulation: %d" %

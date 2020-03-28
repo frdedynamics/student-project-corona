@@ -1,6 +1,18 @@
 language: python
 jobs:
   include:
+    - os: linux
+      dist: xenial
+      python: 3.7
+    - os: linux
+      dist: xenial
+      python: 3.8
+    - os: linux
+      dist: bionic
+      python: 3.7
+    - os: linux
+      dist: bionic
+      python: 3.8
     - os: osx
       osx_image: xcode11.2
       language: generic
@@ -14,7 +26,7 @@ before_install:
 install:
   - ./.travis/install.sh
 script:
-  - pytest -p no:faulthandler --cov=src --cov=test
+  - pytest --cov=src --cov=test
   - flake8 . --exit-zero
 after_success:
   - coveralls

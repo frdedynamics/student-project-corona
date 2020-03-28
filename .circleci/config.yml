@@ -27,9 +27,9 @@ jobs:
             python -m pip install --upgrade pip
       - run:
           name: Run Unit Tests
-            command: |
-              pytest --cov=src --cov=test
-              flake8 . --exit-zero
+          command: |
+            pytest --cov=src --cov=test
+            flake8 . --exit-zero
 workflows:
   build-test:
     jobs:

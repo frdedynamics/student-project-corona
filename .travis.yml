@@ -1,6 +1,21 @@
 language: python
 jobs:
   include:
+    - os: linux
+      dist: xenial
+      python: 3.7
+    - os: linux
+      dist: xenial
+      python: 3.8
+    - os: linux
+      dist: bionic
+      python: 3.7
+    - os: linux
+      dist: bionic
+      python: 3.8
+    - os: osx
+      osx_image: xcode11.2
+      language: generic
     - os: windows
       language: shell
       before_install:

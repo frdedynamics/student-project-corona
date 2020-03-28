@@ -6,4 +6,4 @@ scipy
 matplotlib
 pytest
 pytest-cov
-python-coveralls
+coveralls

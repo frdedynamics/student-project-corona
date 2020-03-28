@@ -2,7 +2,9 @@ import logging
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
+from src.config import get_config
 
+config = get_config()
 _LOGGER = logging.getLogger(__name__)
 logging.getLogger('matplotlib').setLevel('ERROR')
 
@@ -60,4 +62,7 @@ class SIR:
         plt.plot(self.t, self.result[:, 0]*self.total_population)
         plt.plot(self.t, self.result[:, 1]*self.total_population)
         plt.plot(self.t, self.result[:, 2]*self.total_population)
-        plt.show(block=True)
+        if config.get("user") == "ci":
+            plt.show(block=False)
+        else:
+            plt.show(block=True)

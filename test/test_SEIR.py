@@ -1,5 +1,5 @@
 from unittest import TestCase
-from .context import src
+import src
 
 
 class TestSEIR(TestCase):
@@ -40,4 +40,3 @@ class TestSEIR(TestCase):
             self.model_seir.plot_with_social_distancing()
         except ValueError as e:
             self.fail(msg=e)
-

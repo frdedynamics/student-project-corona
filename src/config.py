@@ -1,5 +1,7 @@
 import logging
 import tzlocal
+import json
+import os
 from datetime import datetime
 from colorlog import ColoredFormatter
 
@@ -43,7 +45,12 @@ logging.getLogger().handlers[0].setFormatter(Formatter(
     }
 ))
 
-config = {}
+
+if os.path.exists('./local_config.json'):
+    with open('./local_config.json') as f:
+        config = json.load(f)
+else:
+    config = {"user": "ci"}
 
 
 def get_config():

@@ -21,11 +21,6 @@ jobs:
     executor: win/vs2019
     steps:
       - run:
-          name: Install Python Dependencies
-          command: |
-            choco install python --version 3.7.6
-            py -m pip install --upgrade pip
-      - run:
           name: Run Unit Tests
           command: |
             pytest --cov=src --cov=test

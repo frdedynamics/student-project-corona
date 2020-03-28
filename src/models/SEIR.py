@@ -70,7 +70,7 @@ class SEIR:
 
         if draw:
             self.SEIR.legend(loc="upper right")
-            self.SEIR.show()
+            self.SEIR.show(block=False)
 
     def plot_with_social_distancing(self):
         if self.result_with_social_distancing is None:
@@ -83,7 +83,7 @@ class SEIR:
                        label="With social distancing (ρ = %.1f)" % self.rho)
 
         self.SEIR.legend(loc="upper right")
-        self.SEIR.show()
+        self.SEIR.show(block=False)
 
     def plot_config(self):
         self.SEIR.title("COVID-19 SEIR Model (α = %.1f, β = %.2f, γ = %.1f)\nPopulation: %d" %

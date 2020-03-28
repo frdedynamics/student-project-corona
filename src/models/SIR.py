@@ -60,4 +60,4 @@ class SIR:
         plt.plot(self.t, self.result[:, 0]*self.total_population)
         plt.plot(self.t, self.result[:, 1]*self.total_population)
         plt.plot(self.t, self.result[:, 2]*self.total_population)
-        plt.show(block=True)
+        plt.show(block=False)

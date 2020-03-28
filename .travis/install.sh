@@ -5,8 +5,9 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
     # Install some custom requirements on macOS
     # e.g. brew install pyenv-virtualenv
     brew install python
-    python -V
-    pip -V 
+    python3-V
+    pip3 -V
+    pip3 install -r ../requirements.txt
 
     case "${TOXENV}" in
         py37)
@@ -18,5 +19,5 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
     esac
 else
     # Install some custom requirements on Linux
-    :
+    pip install -r ../requirements.txt
 fi

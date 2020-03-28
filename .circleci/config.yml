@@ -21,17 +21,9 @@ jobs:
     executor: win/vs2019
     steps:
       - run:
-          name: Print versions
-          command: |
-            py -V
-            python -V
-            python3 -V
-            pip -V
-            pip3 -V
-      - run:
           name: Install Python Dependencies
           command: |
-            pip3 install -r requirements.txt
+            py -m pip install -r requirements.txt
       - run:
           name: Run Unit Tests
           command: |

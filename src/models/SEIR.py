@@ -1,5 +1,4 @@
 import logging
-import os
 import numpy as np
 import matplotlib.pyplot as plt
 from src.config import get_config
@@ -99,4 +98,3 @@ class SEIR:
                         (self.alpha, self.beta, self.gamma, self.total_population))
         self.SEIR.xlabel("Time (Days)")
         self.SEIR.ylabel("Infected", rotation="vertical")
-

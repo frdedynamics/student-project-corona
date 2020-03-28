@@ -40,4 +40,3 @@ class TestSEIR(TestCase):
             self.model_seir.plot_with_social_distancing()
         except ValueError as e:
             self.fail(msg=e)
-

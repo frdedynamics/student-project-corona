@@ -4,8 +4,7 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
 
     # Install some custom requirements on macOS
     # e.g. brew install pyenv-virtualenv
-    brew install python
-    python3-V
+    python3 -V
     pip3 -V
     pip3 install -r ./requirements.txt
 

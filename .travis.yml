@@ -2,6 +2,7 @@ language: python
 jobs:
   include:
     - os: osx
+      osx_image: xcode11.2
       language: generic
 notifications:
   slack:

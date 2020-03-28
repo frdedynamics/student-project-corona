@@ -15,6 +15,5 @@ install:
   - ./.travis/install.sh
 script:
   - pytest --cov=src --cov=test
-  - flake8 . --exit-zero
 after_success:
   - coveralls

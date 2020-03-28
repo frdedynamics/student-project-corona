@@ -1,22 +1,30 @@
 version: 2.1
-
 orbs:
-  python: circleci/python@0.2.1
-
+  win: circleci/windows@1.0.0
 jobs:
-  build-and-test:
-    executor: python/default
+  build-linux:
+    docker:
+      - image: circleci/python:3.7.4
     steps:
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
       - run:
+         name: Install Python Dependencies
+         command: |
+           pip install --user --upgrade pip
+           pip install -r requirements.txt
+      - run:
+         name: Run Unit Tests
+         command: |
+           pytest
+  build-windows:
+    executor: win/vs2019
+    steps:
+      - run:
+          name: Say hello
           command: |
-            pytest
-          name: Test
-
+            echo Greetings!
 workflows:
-  main:
+  build-test:
     jobs:
-      - build-and-test
+      - build-linux
+      - build-windows

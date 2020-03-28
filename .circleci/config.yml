@@ -15,7 +15,12 @@ jobs:
       - run:
          name: Run Unit Tests
          command: |
-           pytest
+           pytest --cov=src --cov=test
+           flake8 . --exit-zero
+      - run:
+          name: Coveralls
+          command: |
+            coveralls
   build-windows:
     executor: win/vs2019
     steps:

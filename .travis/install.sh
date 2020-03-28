@@ -7,7 +7,7 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
     brew install python
     python3-V
     pip3 -V
-    pip3 install -r ../requirements.txt
+    pip3 install -r ./requirements.txt
 
     case "${TOXENV}" in
         py37)
@@ -19,5 +19,5 @@ if [ $TRAVIS_OS_NAME = 'osx' ]; then
     esac
 else
     # Install some custom requirements on Linux
-    pip install -r ../requirements.txt
+    pip install -r ./requirements.txt
 fi

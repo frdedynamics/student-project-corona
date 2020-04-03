@@ -60,7 +60,7 @@ class SIR:
         if self.result is None:
             self.solve()
         dictionary = dict(zip(self.t, self.result.tolist()))
-        print(json.dumps(dictionary, indent=4))
+        # print(json.dumps(dictionary, indent=4))
         return json.dumps(dictionary, indent=4)
 
     def plot_result(self):

@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 from src.config import get_config
+import json
 
 config = get_config()
 _LOGGER = logging.getLogger(__name__)
@@ -53,6 +54,14 @@ class SIR:
             ],
             self.t
         )
+
+    def get_json(self):
+        _LOGGER.debug("Json..")
+        if self.result is None:
+            self.solve()
+        dictionary = dict(zip(self.t, self.result.tolist()))
+        print(json.dumps(dictionary, indent=4))
+        return json.dumps(dictionary, indent=4)
 
     def plot_result(self):
         if self.result is None:

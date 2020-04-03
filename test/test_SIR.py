@@ -33,6 +33,10 @@ class TestSIR(TestCase):
         self.model_sir.solve()
         self.assertIsNotNone(self.model_sir.result)
 
+    def test_get_json(self):
+        json = self.model_sir.get_json()
+        self.assertIsInstance(json, str)
+
     def test_plot_result(self):
         try:
             self.model_sir.plot_result()

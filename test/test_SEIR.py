@@ -29,6 +29,13 @@ class TestSEIR(TestCase):
         self.model_seir.solve()
         self.assertIsNotNone(self.model_seir.result[1])
 
+    def test_get_json(self):
+        json = self.model_seir.get_json(True)
+        self.assertIsInstance(json, str)
+        json_base_result = self.model_seir.get_json(False)
+        self.assertIsInstance(json, str)
+        self.assertIsNot(json, json_base_result)
+
     def test_plot_base_model(self):
         try:
             self.model_seir.plot_base_model()
@@ -40,10 +47,3 @@ class TestSEIR(TestCase):
             self.model_seir.plot_with_social_distancing()
         except ValueError as e:
             self.fail(msg=e)
-
-    def test_get_json(self):
-        json = self.model_seir.get_json(True)
-        self.assertIsInstance(json, str)
-        json_base_result = self.model_seir.get_json(False)
-        self.assertIsInstance(json, str)
-        self.assertIsNot(json, json_base_result)

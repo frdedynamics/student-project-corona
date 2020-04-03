@@ -1,8 +1,7 @@
 import logging
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
-
+from pandas import DataFrame
 from src.config import get_config
 
 config = get_config()
@@ -65,7 +64,7 @@ class SEIR:
             self.solve(social_distancing)
 
         if self._json[index] is None:
-            df = pd.DataFrame(self._result[index], columns=['S', 'E', 'I', 'R'])
+            df = DataFrame(self._result[index], columns=['S', 'E', 'I', 'R'])
             df['t'] = self._t
             df.set_index('t', inplace=True)
             self._json[index] = df.to_json(orient="index", indent=2)

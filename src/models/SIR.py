@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 from src.config import get_config
-import pandas as pd
+from pandas import DataFrame
 
 config = get_config()
 _LOGGER = logging.getLogger(__name__)
@@ -63,7 +63,7 @@ class SIR:
             self.solve()
 
         if self._json is None:
-            df = pd.DataFrame(self._result, columns=['S', 'I', 'R'])
+            df = DataFrame(self._result, columns=['S', 'I', 'R'])
             df['t'] = self._t
             df.set_index('t', inplace=True)
             self._json = df.to_json(orient="index", indent=2)

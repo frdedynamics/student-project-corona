@@ -1,8 +1,9 @@
 import logging
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
+
 from src.config import get_config
-import json
 
 config = get_config()
 _LOGGER = logging.getLogger(__name__)
@@ -16,21 +17,21 @@ class SEIR:
         _LOGGER.debug("Initialize..")
 
         self.total_population = total_population
-        self.S_0 = 1 - 1 / total_population
-        self.E_0 = 1 / total_population
+        self.S_0 = 1 - 1/total_population
+        self.E_0 = 1/total_population
         self.I_0 = 0
         self.R_0 = 0
         self.duration_days = duration_days
-        self._timestep_days = timestep_days
+        self.timestep_days = timestep_days
 
         self.alpha = alpha  # inverse of incubation period
         self.beta = beta  # average contact rate
         self.gamma = gamma  # inverse of the mean infection period
         self.rho = rho  # social distancing (values: 0-1)
 
-        self._t = np.linspace(0, self.duration_days, int(self.duration_days / timestep_days) + 1)
-        self._result = [None] * 2  # [0] = base model, [1] = social distancing
-        self._json = [None] * 2
+        self._t = np.linspace(0, self.duration_days, int(self.duration_days/timestep_days) + 1)
+        self._result = [None]*2  # [0] = base model, [1] = social distancing
+        self._json = [None]*2
 
     def solve(self, social_distancing=True):
         _LOGGER.debug("Solve..")
@@ -47,10 +48,10 @@ class SEIR:
             result_index = 0
 
         for _ in self._t[1:]:
-            next_S = S[-1] - (rho * self.beta * S[-1] * I[-1]) * dt
-            next_E = E[-1] + (rho * self.beta * S[-1] * I[-1] - self.alpha * E[-1]) * dt
-            next_I = I[-1] + (self.alpha * E[-1] - self.gamma * I[-1]) * dt
-            next_R = R[-1] + (self.gamma * I[-1]) * dt
+            next_S = S[-1] - (rho*self.beta*S[-1]*I[-1])*dt
+            next_E = E[-1] + (rho*self.beta*S[-1]*I[-1] - self.alpha*E[-1])*dt
+            next_I = I[-1] + (self.alpha*E[-1] - self.gamma*I[-1])*dt
+            next_R = R[-1] + (self.gamma*I[-1])*dt
             S.append(next_S)
             E.append(next_E)
             I.append(next_I)
@@ -62,12 +63,13 @@ class SEIR:
         index = 1 if social_distancing else 0
         if self._result[index] is None:
             self.solve(social_distancing)
-        dictionary = dict(zip(self._t, self._result[index].tolist()))
-        # print(json.dumps(dictionary, indent=4))
 
         if self._json[index] is None:
-            self._json[index] = json.dumps(dictionary, indent=4)
-
+            df = pd.DataFrame(self._result[index], columns=['S', 'E', 'I', 'R'])
+            df['t'] = self._t
+            df.set_index('t', inplace=True)
+            self._json[index] = df.to_json(orient="index", indent=2)
+        # print(self._json[index])
         return self._json[index]
 
     def plot_base_model(self, draw=True):
@@ -78,7 +80,7 @@ class SEIR:
 
         plt.clf()
         self.plot_config()
-        plt.plot(self._t, self._result[0][:, 2] * self.total_population, label="Without social distancing")
+        plt.plot(self._t, self._result[0][:, 2]*self.total_population, label="Without social distancing")
 
         if draw:
             plt.legend(loc="upper right")
@@ -94,7 +96,7 @@ class SEIR:
         _LOGGER.debug("Plot with social distancing result..")
         self.plot_base_model(draw=False)
 
-        plt.plot(self._t, self._result[1][:, 2] * self.total_population, ls="--",
+        plt.plot(self._t, self._result[1][:, 2]*self.total_population, ls="--",
                  label="With social distancing (ρ = %.1f)" % self.rho)
 
         plt.legend(loc="upper right")

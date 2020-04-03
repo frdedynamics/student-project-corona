@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 from src.config import get_config
-import json
+import pandas as pd
 
 config = get_config()
 _LOGGER = logging.getLogger(__name__)
@@ -25,15 +25,15 @@ class SIR:
         self.timestep_days = timestep_days
         self.total_population = total_population
 
-        self._number_of_timesteps = int(np.floor(duration_days / timestep_days))
+        self._number_of_timesteps = int(np.floor(duration_days/timestep_days))
         self._t = np.linspace(start=1, stop=self.duration_days, num=self._number_of_timesteps)
         self._result = None
         self._json = None
 
-    def __sanity_check_inputs(self):
-        if not False:
-            _LOGGER.error("Inputs are insane!")
-            raise ValueError
+    # def __sanity_check_inputs(self):
+    #     if not False:
+    #         _LOGGER.error("Inputs are insane!")
+    #         raise ValueError
 
     def __f(self, y, t):
         s, i, r = y
@@ -61,11 +61,13 @@ class SIR:
         _LOGGER.debug("Json..")
         if self._result is None:
             self.solve()
-        dictionary = dict(zip(self._t, self._result.tolist()))
-        # print(json.dumps(dictionary, indent=4))
 
         if self._json is None:
-            self._json = json.dumps(dictionary, indent=4)
+            df = pd.DataFrame(self._result, columns=['S', 'I', 'R'])
+            df['t'] = self._t
+            df.set_index('t', inplace=True)
+            self._json = df.to_json(orient="index", indent=2)
+        # print(self._json)
         return self._json
 
     def plot_result(self):
@@ -74,9 +76,9 @@ class SIR:
 
         _LOGGER.debug("Plot result..")
         plt.clf()
-        plt.plot(self._t, self._result[:, 0] * self.total_population)
-        plt.plot(self._t, self._result[:, 1] * self.total_population)
-        plt.plot(self._t, self._result[:, 2] * self.total_population)
+        plt.plot(self._t, self._result[:, 0]*self.total_population)
+        plt.plot(self._t, self._result[:, 1]*self.total_population)
+        plt.plot(self._t, self._result[:, 2]*self.total_population)
         if config.get("user") == "ci":
             plt.show(block=False)
         else:

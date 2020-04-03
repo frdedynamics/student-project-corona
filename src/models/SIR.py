@@ -59,6 +59,7 @@ class SIR:
             self.solve()
 
         _LOGGER.debug("Plot result..")
+        plt.clf()
         plt.plot(self.t, self.result[:, 0]*self.total_population)
         plt.plot(self.t, self.result[:, 1]*self.total_population)
         plt.plot(self.t, self.result[:, 2]*self.total_population)

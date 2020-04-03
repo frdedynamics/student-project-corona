@@ -31,8 +31,6 @@ class SEIR:
         self.t = np.linspace(0, self.duration_days, int(self.duration_days / timestep_days) + 1)
         self.result = [None] * 2  # [0] = base model, [1] = social distancing
         self.json = [None] * 2
-        self.SEIR = plt
-        self.plot_config()
 
     def solve(self, social_distancing=True):
         _LOGGER.debug("Solve..")
@@ -70,14 +68,16 @@ class SEIR:
 
         _LOGGER.debug("Plot base model result..")
 
-        self.SEIR.plot(self.t, self.result[0][:, 2] * self.total_population, label="Without social distancing")
+        plt.clf()
+        self.plot_config()
+        plt.plot(self.t, self.result[0][:, 2] * self.total_population, label="Without social distancing")
 
         if draw:
-            self.SEIR.legend(loc="upper right")
+            plt.legend(loc="upper right")
             if config.get("user") == "ci":
-                self.SEIR.show(block=False)
+                plt.show(block=False)
             else:
-                self.SEIR.show(block=True)
+                plt.show(block=True)
 
     def plot_with_social_distancing(self):
         if self.result[1] is None:
@@ -86,17 +86,17 @@ class SEIR:
         _LOGGER.debug("Plot with social distancing result..")
         self.plot_base_model(draw=False)
 
-        self.SEIR.plot(self.t, self.result[1][:, 2] * self.total_population, ls="--",
-                       label="With social distancing (ρ = %.1f)" % self.rho)
+        plt.plot(self.t, self.result[1][:, 2] * self.total_population, ls="--",
+                 label="With social distancing (ρ = %.1f)" % self.rho)
 
-        self.SEIR.legend(loc="upper right")
+        plt.legend(loc="upper right")
         if config.get("user") == "ci":
-            self.SEIR.show(block=False)
+            plt.show(block=False)
         else:
-            self.SEIR.show(block=True)
+            plt.show(block=True)
 
     def plot_config(self):
-        self.SEIR.title("COVID-19 SEIR Model (α = %.1f, β = %.2f, γ = %.1f)\nPopulation: %d" %
-                        (self.alpha, self.beta, self.gamma, self.total_population))
-        self.SEIR.xlabel("Time (Days)")
-        self.SEIR.ylabel("Infected", rotation="vertical")
+        plt.title("COVID-19 SEIR Model (α = %.1f, β = %.2f, γ = %.1f)\nPopulation: %d" %
+                  (self.alpha, self.beta, self.gamma, self.total_population))
+        plt.xlabel("Time (Days)")
+        plt.ylabel("Infected", rotation="vertical")

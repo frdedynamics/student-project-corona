@@ -29,9 +29,15 @@ class TestSIR(TestCase):
         # self.fail(msg="Needs test.")
 
     def test_solve(self):
-        self.assertIsNone(self.model_sir.result)
+        self.assertIsNone(self.model_sir._result)
         self.model_sir.solve()
-        self.assertIsNotNone(self.model_sir.result)
+        self.assertIsNotNone(self.model_sir._result)
+
+    def test_get_json(self):
+        self.assertIsNone(self.model_sir._json)
+        json = self.model_sir.get_json()
+        self.assertIsInstance(json, str)
+        self.assertIsNotNone(self.model_sir._json)
 
     def test_plot_result(self):
         try:

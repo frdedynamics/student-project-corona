@@ -47,3 +47,4 @@ workflows:
   build-test:
     jobs:
       - build-linux
+      - build-windows

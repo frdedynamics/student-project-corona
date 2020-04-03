@@ -12,9 +12,9 @@ jobs:
           command: ls
       - restore_cache:
           keys:
-              - venv-packages-v1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-              - venv-packages-v1-{{ .Branch }}-
-              - venv-packages-v1-
+              - venv-v1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+              - venv-v1-{{ .Branch }}-
+              - venv-v1-
       - run:
           name: Install Python Dependencies
           command: |

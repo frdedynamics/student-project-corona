@@ -25,6 +25,9 @@ jobs:
           command: |
             pytest --cov=src --cov=test
             flake8 . --exit-zero
+      - run:
+          name: Display directory again
+          command: ls
       - save_cache:
           paths:
             - venv

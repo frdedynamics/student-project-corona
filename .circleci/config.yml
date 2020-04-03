@@ -25,6 +25,7 @@ jobs:
       - save_cache:
          paths:
            - ~/.local/share/virtualenvs/venv  # this path depends on where pipenv creates a virtualenv
+           - ~/usr/local/lib/python3.7/site-packages
          key: pip-packages-v1-{{ .Branch }}-{{ checksum "requirements.txt" }}
   build-windows:
     executor: win/vs2019

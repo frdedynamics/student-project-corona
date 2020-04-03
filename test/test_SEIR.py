@@ -25,16 +25,20 @@ class TestSEIR(TestCase):
         )
 
     def test_solve(self):
-        self.assertIsNone(self.model_seir.result[1])
+        self.assertIsNone(self.model_seir._result[1])
         self.model_seir.solve()
-        self.assertIsNotNone(self.model_seir.result[1])
+        self.assertIsNotNone(self.model_seir._result[1])
 
     def test_get_json(self):
+        self.assertIsNone(self.model_seir._json[0])
+        self.assertIsNone(self.model_seir._json[1])
         json = self.model_seir.get_json(True)
         self.assertIsInstance(json, str)
         json_base_result = self.model_seir.get_json(False)
         self.assertIsInstance(json, str)
         self.assertIsNot(json, json_base_result)
+        self.assertIsNotNone(self.model_seir._json[0])
+        self.assertIsNotNone(self.model_seir._json[1])
 
     def test_plot_base_model(self):
         try:

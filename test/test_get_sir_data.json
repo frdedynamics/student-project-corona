@@ -1,0 +1,9 @@
+{
+    "total_population": 5000000,
+    "I_0": 1000,
+    "R_0": 0,
+    "average_number_of_people_infected_per_day_per_person": 0.2,
+    "average_days_sick_per_person": 7,
+    "duration_days": 365,
+    "timestep_days": 1
+}

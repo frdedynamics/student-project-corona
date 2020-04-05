@@ -8,3 +8,4 @@ matplotlib
 pytest
 pytest-cov
 coveralls
+flask

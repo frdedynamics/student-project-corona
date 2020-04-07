@@ -1,4 +1,6 @@
 {
+    "username": "john",
+    "password": "hello",
     "total_population": 5000000,
     "I_0": 1000,
     "R_0": 0,

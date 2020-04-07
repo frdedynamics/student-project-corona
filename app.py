@@ -2,18 +2,39 @@ import logging
 import src
 import json
 from src.config import get_config
-from flask import Flask
+from flask import Flask, request, abort
 
-config = get_config()
+CONFIG = get_config()
 _LOGGER = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
+USERS = {
+    "john": "hello"
+}
 
-@app.route("/<param>")
-def get_sir_data(param):
+
+@app.route("/get_sir_data", methods=["GET"])
+def get_sir_data(param=None):
+    if param is not None:
+        _LOGGER.debug("Param is not none.")
+    else:
+        _LOGGER.debug("Param is none.")
+        param = request.get_json()
+
+    if param.get('username') in USERS.keys():
+        if param.get('password') == USERS[param.get('username')]:
+            _LOGGER.debug("User: " + str(param.get('username')))
+            pass
+        else:
+            _LOGGER.debug("Password no good. Username " + str(param.get('username')))
+            abort(403)
+    else:
+        _LOGGER.debug("Username " + str(param.get('username')) + " not in users.")
+        abort(403)
+
     if isinstance(param, str):
-        _LOGGER.debug('Received: ' + param)
+        _LOGGER.debug('Received string: ' + param)
         tmp = json.loads(param)
     else:
         _LOGGER.debug('Received: ' + str(param))

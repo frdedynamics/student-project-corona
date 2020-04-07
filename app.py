@@ -12,8 +12,12 @@ app = Flask(__name__)
 
 @app.route("/<param>")
 def get_sir_data(param):
-    _LOGGER.debug('Received: ' + param)
-    tmp = json.loads(param)
+    if isinstance(param, str):
+        _LOGGER.debug('Received: ' + param)
+        tmp = json.loads(param)
+    else:
+        _LOGGER.debug('Received: ' + str(param))
+        tmp = param
 
     sir = src.SIR(
         total_population=tmp["total_population"],

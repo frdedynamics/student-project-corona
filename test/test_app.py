@@ -3,7 +3,7 @@ import json
 import app
 
 
-class TestSIR(TestCase):
+class TestApp(TestCase):
 
     def setUp(self):
         with open('test_get_sir_data.json') as json_file:
@@ -13,5 +13,6 @@ class TestSIR(TestCase):
             self.expected_result = json.load(json_file)
 
     def test_get_sir_data(self):
-        tmp = app.get_sir_data(param=str(self.param))
-        self.assertEquals(tmp, self.expected_result)
+        tmp = app.get_sir_data(param=self.param)
+        self.assertTrue(isinstance(tmp, str))
+        self.assertEqual(json.loads(tmp), self.expected_result)

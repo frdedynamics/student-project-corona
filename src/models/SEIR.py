@@ -85,7 +85,7 @@ class SEIR:
             plt.legend(loc="upper right")
             if config.get("user") == "ci":
                 plt.show(block=False)
-            else:
+            elif config.get("show_plots"):
                 plt.show(block=True)
 
     def plot_with_social_distancing(self):
@@ -101,7 +101,7 @@ class SEIR:
         plt.legend(loc="upper right")
         if config.get("user") == "ci":
             plt.show(block=False)
-        else:
+        elif config.get("show_plots"):
             plt.show(block=True)
 
     def plot_config(self):

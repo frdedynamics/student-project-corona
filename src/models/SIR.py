@@ -81,5 +81,5 @@ class SIR:
         plt.plot(self._t, self._result[:, 2]*self.total_population)
         if config.get("user") == "ci":
             plt.show(block=False)
-        else:
+        elif config.get("show_plots"):
             plt.show(block=True)

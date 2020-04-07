@@ -1,6 +1,5 @@
 import json
 import app
-import requests
 from unittest import TestCase
 from werkzeug import exceptions
 

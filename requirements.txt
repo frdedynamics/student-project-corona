@@ -1,5 +1,4 @@
 werkzeug
-requests
 pandas
 flake8
 colorlog

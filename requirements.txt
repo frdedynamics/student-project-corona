@@ -1,3 +1,4 @@
+werkzeug
 pandas
 flake8
 colorlog
@@ -8,3 +9,4 @@ matplotlib
 pytest
 pytest-cov
 coveralls
+flask

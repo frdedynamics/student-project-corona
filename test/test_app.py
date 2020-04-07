@@ -2,15 +2,18 @@ import json
 import app
 from unittest import TestCase
 from werkzeug import exceptions
+from os import path
+
+ABSOLUTE_PATH = path.dirname(path.abspath(__file__))
 
 
 class TestApp(TestCase):
 
     def setUp(self):
-        with open('test/test_get_sir_data.json') as json_file:
+        with open(ABSOLUTE_PATH + '/test_get_sir_data.json') as json_file:
             self.param = json.load(json_file)
 
-        with open('test/test_result_get_sir_data.json') as json_file:
+        with open(ABSOLUTE_PATH + '/test_result_get_sir_data.json') as json_file:
             self.expected_result = json.load(json_file)
 
     def test_get_sir_data(self):

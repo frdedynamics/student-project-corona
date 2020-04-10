@@ -66,9 +66,7 @@ class SEIR:
         if self._json[index] is None:
             df = DataFrame(self._result[index], columns=['S', 'E', 'I', 'R'])
             df['t'] = self._t
-            df.set_index('t', inplace=True)
-            self._json[index] = df.to_json(orient="index", indent=2)
-        # print(self._json[index])
+            self._json[index] = df.to_json(orient="records", indent=2)
         return self._json[index]
 
     def plot_base_model(self, draw=True):

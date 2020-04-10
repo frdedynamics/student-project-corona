@@ -65,9 +65,8 @@ class SIR:
         if self._json is None:
             df = DataFrame(self._result, columns=['S', 'I', 'R'])
             df['t'] = self._t
-            df.set_index('t', inplace=True)
-            self._json = df.to_json(orient="index", indent=2)
-        # print(self._json)
+            self._json = df.to_json(orient="records", indent=2)
+
         return self._json
 
     def plot_result(self):

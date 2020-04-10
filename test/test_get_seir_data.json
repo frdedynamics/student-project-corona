@@ -1,0 +1,13 @@
+{
+    "model_type": "SEIR",
+    "username": "john",
+    "password": "hello",
+    "total_population": 5000000,
+    "duration_days": 10,
+    "timestep_days": 1,
+    "alpha": 0.2,
+    "beta": 1.75,
+    "gamma": 0.5,
+    "rho": 0.7,
+    "social_distancing": false
+}

@@ -1,4 +1,5 @@
 {
+    "model_type": "SIR",
     "username": "john",
     "password": "hello",
     "total_population": 5000000,

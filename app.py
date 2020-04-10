@@ -3,18 +3,20 @@ import src
 import json
 from src.config import get_config
 from flask import Flask, request, abort
+from flask_cors import CORS
 
 CONFIG = get_config()
 _LOGGER = logging.getLogger(__name__)
 
 app = Flask(__name__)
+CORS(app)
 
 USERS = {
     "john": "hello"
 }
 
 
-@app.route("/get_sir_data", methods=["GET"])
+@app.route("/get_sir_data", methods=["POST"])
 def get_sir_data(param=None):
     if param is not None:
         _LOGGER.debug("Param is not none.")

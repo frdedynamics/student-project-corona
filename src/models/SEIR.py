@@ -67,7 +67,6 @@ class SEIR:
             df = DataFrame(self._result[index], columns=['S', 'E', 'I', 'R'])
             df['t'] = self._t
             self._json[index] = df.to_json(orient="records", indent=2)
-        print(self._json[index])
         return self._json[index]
 
     def plot_base_model(self, draw=True):

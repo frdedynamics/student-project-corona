@@ -1,4 +1,4 @@
-from .user import User
+from src.resource.user import User
 from .config import get_config
 import logging
 

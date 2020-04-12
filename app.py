@@ -1,6 +1,7 @@
 import logging
 import src
 import json
+import datetime
 from src.config import get_config
 
 from flask import Flask, request, abort
@@ -9,12 +10,14 @@ from flask_jwt import JWT, jwt_required
 from flask_cors import CORS
 
 from src.authorization import authenticate, identity
+from src import IModel
 
 CONFIG = get_config()
 _LOGGER = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.secret_key = 'topsecret'
+app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(hours=1)
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.url_map.strict_slashes = False
 api = Api(app)
@@ -22,6 +25,24 @@ CORS(app)
 
 jwt = JWT(app, authenticate, identity)  # /auth with {"username": "john", "password": hello}
 
+
+def generate_instance_attributes(self):
+    attributes = dict()
+    for attribute, value in self.__dict__.items():
+        if not attribute.startswith("_"):  # filter out private attributes
+            attributes[attribute] = value
+    return attributes
+
+
+def get_default_model_values():
+    models = dict()
+    for model in IModel.__subclasses__():
+        instance = model()
+        models[model.__name__] = generate_instance_attributes(instance)
+    return models
+
+
+DEFAULT_VALUES = get_default_model_values()  # type: dict
 NOT_IMPLEMENTED = {'message': 'resource not implemented'}, 501
 
 
@@ -39,17 +60,20 @@ class SampleModel(Resource):
 
 # returns data and cache model instances with identical hashes and store in users)
 class Model(Resource):
+    @jwt_required()
     def post(self, model_name):  # return model data
         try:
             data = request.get_json()
             model_class = getattr(src.models, model_name)
-            model = model_class(total_population=data['total_population'])  # type: src.IModel
+            model = model_class(total_population=data['total_population'])  # type: IModel
             return {f"{model_name} with {data['total_population']} population": json.loads(model.get_json())}, 501
         except AttributeError:
             return {'message': f'No model named {model_name}.'}, 400
 
+    @jwt_required()
     def get(self, model_name):  # return default model values
-        return NOT_IMPLEMENTED
+        return DEFAULT_VALUES[model_name] if model_name in DEFAULT_VALUES \
+                   else {'message': f'No model named {model_name}.'}, 400
 
 
 # returns data

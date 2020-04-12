@@ -2,21 +2,71 @@ import logging
 import src
 import json
 from src.config import get_config
+
 from flask import Flask, request, abort
+from flask_restful import Resource, Api
+from flask_jwt import JWT, jwt_required
 from flask_cors import CORS
+
+from src.authorization import authenticate, identity
 
 CONFIG = get_config()
 _LOGGER = logging.getLogger(__name__)
 
 app = Flask(__name__)
+app.secret_key = 'topsecret'
+app.config['PROPAGATE_EXCEPTIONS'] = True
+app.url_map.strict_slashes = False
+api = Api(app)
 CORS(app)
 
-USERS = {
+jwt = JWT(app, authenticate, identity)  # /auth with {"username": "john", "password": hello}
+
+NOT_IMPLEMENTED = {'message': 'resource not implemented'}, 501
+
+
+# returns the appropriate sample model with default values
+class SampleModel(Resource):
+    @jwt_required()  # Authorization: "JWT <access token>"
+    def get(self, model_name):
+        try:
+            model_class = getattr(src.models, model_name)
+            model = model_class()
+            return {model_name: model.get_json()}
+        except AttributeError:
+            return {'message': f'No model named {model_name}.'}, 400
+
+
+# returns data and cache model instances with identical hashes and store in users)
+class Model(Resource):
+    def get(self, model_name, model_id):
+        return NOT_IMPLEMENTED
+
+
+#  returns a list of available models
+class ModelList(Resource):
+    def get(self):
+        return NOT_IMPLEMENTED
+
+
+# returns default attributes for a model
+class DefaultValues(Resource):
+    def get(self, model_name):
+        return NOT_IMPLEMENTED
+
+
+api.add_resource(SampleModel, '/model/<string:model_name>/sample')
+api.add_resource(Model, '/model/<string:model_name>/<int:model_id>')
+api.add_resource(DefaultValues, '/model/<string:model_name>')
+api.add_resource(ModelList, '/model')
+
+
+USERS = {  # deprecated for current branch
     "john": "hello"
 }
 
 
-@app.route("/get_corona_data", methods=["POST"])
+@app.route("/get_corona_data", methods=["POST"])  # deprecated for current branch
 def get_corona_data(param=None):
     if param is not None:
         _LOGGER.debug("Param is not none.")

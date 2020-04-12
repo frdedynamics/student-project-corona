@@ -57,7 +57,7 @@ class SEIR:
             R.append(next_R)
             self._result[result_index] = np.array([S, E, I, R]).T
 
-    def get_json(self, social_distancing):
+    def get_json(self, social_distancing=False):
         _LOGGER.debug("Json..")
         index = 1 if social_distancing else 0
         if self._result[index] is None:

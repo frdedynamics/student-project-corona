@@ -73,7 +73,7 @@ class Model(Resource):
     @jwt_required()
     def get(self, model_name):  # return default model values
         return DEFAULT_VALUES[model_name] if model_name in DEFAULT_VALUES \
-                   else {'message': f'No model named {model_name}.'}, 400
+                   else ({'message': f'No model named {model_name}.'}, 400)
 
 
 # returns data

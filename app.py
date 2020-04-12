@@ -31,7 +31,7 @@ class SampleModel(Resource):
     def get(self, model_name):
         try:
             model_class = getattr(src.models, model_name)
-            model = model_class()
+            model = model_class()  # type: src.IModel
             return {model_name: model.get_json()}
         except AttributeError:
             return {'message': f'No model named {model_name}.'}, 400

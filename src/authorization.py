@@ -1,5 +1,5 @@
-from src.user import User
-from src.config import get_config
+from .user import User
+from .config import get_config
 import logging
 
 CONFIG = get_config()

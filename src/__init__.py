@@ -1,4 +1,5 @@
 # flake8: noqa
 from .config import get_config
-from .models import SIR
-from .models import SEIR
+from .user import User
+from .models import SIR, SEIR, IModel
+

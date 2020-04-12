@@ -73,7 +73,8 @@ class Model(Resource):
         try:
             model_class = getattr(src.models, model_name)
             data = MODEL_PARSER[model_name].parse_args()
-            return data, 501  # TODO testing parsers
+            instance = model_class(**dict(data))  # type: IModel
+            return json.loads(instance.get_json())  # TODO json -> dict -> json
         except AttributeError:
             return {'message': f'No model named {model_name}.'}, 400
 

@@ -5,7 +5,7 @@ import datetime
 from src.config import get_config
 
 from flask import Flask, request, abort
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required
 from flask_cors import CORS
 
@@ -26,23 +26,30 @@ CORS(app)
 jwt = JWT(app, authenticate, identity)  # /auth with {"username": "john", "password": hello}
 
 
-def generate_instance_attributes(self):
-    attributes = dict()
-    for attribute, value in self.__dict__.items():
-        if not attribute.startswith("_"):  # filter out private attributes
-            attributes[attribute] = value
-    return attributes
-
-
 def get_default_model_values():
     models = dict()
     for model in IModel.__subclasses__():
         instance = model()
-        models[model.__name__] = generate_instance_attributes(instance)
+        print(instance.LOCALS)
+        models[model.__name__] = instance.LOCALS
     return models
 
 
+def get_parser_arguements():
+    parsers = dict()
+    for model in DEFAULT_VALUES:
+        parser = reqparse.RequestParser()
+        for attribute, value in DEFAULT_VALUES[model].items():
+            parser.add_argument(
+                attribute,
+                default=value
+            )
+        parsers[model] = parser
+    return parsers
+
+
 DEFAULT_VALUES = get_default_model_values()  # type: dict
+MODEL_PARSER = get_parser_arguements()
 NOT_IMPLEMENTED = {'message': 'resource not implemented'}, 501
 
 
@@ -63,10 +70,9 @@ class Model(Resource):
     @jwt_required()
     def post(self, model_name):  # return model data
         try:
-            data = request.get_json()
             model_class = getattr(src.models, model_name)
-            model = model_class(total_population=data['total_population'])  # type: IModel
-            return {f"{model_name} with {data['total_population']} population": json.loads(model.get_json())}, 501
+            data = MODEL_PARSER[model_name].parse_args()
+            return data, 501  # TODO testing parsers
         except AttributeError:
             return {'message': f'No model named {model_name}.'}, 400
 

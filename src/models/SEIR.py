@@ -11,10 +11,15 @@ logging.getLogger('matplotlib').setLevel('ERROR')
 
 
 class SEIR(IModel):
+    LOCALS = None
 
     def __init__(self, total_population=10000, duration_days=100, timestep_days=0.1,
                  alpha=0.2, beta=1.75, gamma=0.5, rho=0.8):
         _LOGGER.debug("Initialize..")
+
+        if self.LOCALS is None:
+            self.LOCALS = locals()
+            del self.LOCALS['self']
 
         self.total_population = total_population
         self.S_0 = 1 - 1/total_population

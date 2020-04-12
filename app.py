@@ -76,16 +76,17 @@ class Model(Resource):
                    else ({'message': f'No model named {model_name}.'}, 400)
 
 
-# returns data
+# returns saved models
 class ModelData(Resource):
     def get(self, model_name, model_id):
         return NOT_IMPLEMENTED
 
 
-#  returns a list of available models
+# returns a list of available models and their values
 class DefaultValues(Resource):
+    @jwt_required()
     def get(self):
-        return NOT_IMPLEMENTED
+        return DEFAULT_VALUES
 
 
 api.add_resource(SampleModel, '/model/<string:model_name>/sample')

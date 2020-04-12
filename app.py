@@ -17,20 +17,19 @@ _LOGGER = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.secret_key = 'topsecret'
-app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(hours=1)
+app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(hours=3)
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.url_map.strict_slashes = False
 api = Api(app)
 CORS(app)
 
-jwt = JWT(app, authenticate, identity)  # /auth with {"username": "john", "password": hello}
+jwt = JWT(app, authenticate, identity)  # /auth with {"username": "john", "password": "hello"}
 
 
 def get_default_model_values():
     models = dict()
     for model in IModel.__subclasses__():
         instance = model()
-        print(instance.LOCALS)
         models[model.__name__] = instance.LOCALS
     return models
 
@@ -50,8 +49,9 @@ def get_parser_arguements():
 
 
 DEFAULT_VALUES = get_default_model_values()  # type: dict
-MODEL_PARSER = get_parser_arguements()
+MODEL_PARSER = get_parser_arguements() # type: dict
 NOT_IMPLEMENTED = {'message': 'resource not implemented'}, 501
+SUCCESS = "response"
 
 
 # returns the appropriate sample model with default values
@@ -61,12 +61,11 @@ class SampleModel(Resource):
         try:
             model_class = getattr(src.models, model_name)
             model = model_class()  # type: src.IModel
-            return {model_name: json.loads(model.get_json())}  # TODO json.loads for conveience of testing
+            return {SUCCESS: json.loads(model.get_json())}  # TODO json.loads for conveience of testing
         except AttributeError:
             return {'message': f'No model named {model_name}.'}, 400
 
 
-# returns data and cache model instances with identical hashes and store in users)
 class Model(Resource):
     @jwt_required()
     def post(self, model_name):  # return model data
@@ -74,13 +73,13 @@ class Model(Resource):
             model_class = getattr(src.models, model_name)
             data = MODEL_PARSER[model_name].parse_args()
             instance = model_class(**dict(data))  # type: IModel
-            return json.loads(instance.get_json())  # TODO json -> dict -> json
+            return {SUCCESS: json.loads(instance.get_json())}  # TODO json -> dict -> json
         except AttributeError:
             return {'message': f'No model named {model_name}.'}, 400
 
     @jwt_required()
     def get(self, model_name):  # return default model values
-        return DEFAULT_VALUES[model_name] if model_name in DEFAULT_VALUES \
+        return {SUCCESS: DEFAULT_VALUES[model_name]} if model_name in DEFAULT_VALUES \
                    else ({'message': f'No model named {model_name}.'}, 400)
 
 
@@ -94,7 +93,7 @@ class ModelData(Resource):
 class DefaultValues(Resource):
     @jwt_required()
     def get(self):
-        return DEFAULT_VALUES
+        return {SUCCESS: DEFAULT_VALUES}
 
 
 api.add_resource(SampleModel, '/model/<string:model_name>/sample')

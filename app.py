@@ -32,33 +32,41 @@ class SampleModel(Resource):
         try:
             model_class = getattr(src.models, model_name)
             model = model_class()  # type: src.IModel
-            return {model_name: model.get_json()}
+            return {model_name: json.loads(model.get_json())}  # TODO json.loads for conveience of testing
         except AttributeError:
             return {'message': f'No model named {model_name}.'}, 400
 
 
 # returns data and cache model instances with identical hashes and store in users)
 class Model(Resource):
+    def post(self, model_name):  # return model data
+        try:
+            data = request.get_json()
+            model_class = getattr(src.models, model_name)
+            model = model_class(total_population=data['total_population'])  # type: src.IModel
+            return {f"{model_name} with {data['total_population']} population": json.loads(model.get_json())}, 501
+        except AttributeError:
+            return {'message': f'No model named {model_name}.'}, 400
+
+    def get(self, model_name):  # return default model values
+        return NOT_IMPLEMENTED
+
+
+# returns data
+class ModelData(Resource):
     def get(self, model_name, model_id):
         return NOT_IMPLEMENTED
 
 
 #  returns a list of available models
-class ModelList(Resource):
+class DefaultValues(Resource):
     def get(self):
         return NOT_IMPLEMENTED
 
 
-# returns default attributes for a model
-class DefaultValues(Resource):
-    def get(self, model_name):
-        return NOT_IMPLEMENTED
-
-
 api.add_resource(SampleModel, '/model/<string:model_name>/sample')
-api.add_resource(Model, '/model/<string:model_name>/<int:model_id>')
-api.add_resource(DefaultValues, '/model/<string:model_name>')
-api.add_resource(ModelList, '/model')
+api.add_resource(Model, '/model/<string:model_name>')
+api.add_resource(DefaultValues, '/model')
 
 
 USERS = {  # deprecated for current branch

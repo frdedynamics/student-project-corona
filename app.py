@@ -42,7 +42,8 @@ def get_parser_arguements():
         for attribute, value in DEFAULT_VALUES[model].items():
             parser.add_argument(
                 attribute,
-                default=value
+                default=value,
+                type=type(value)
             )
         parsers[model] = parser
     return parsers

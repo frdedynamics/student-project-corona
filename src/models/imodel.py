@@ -13,5 +13,5 @@ class IModel(ABC):
         pass
 
     @abstractmethod
-    def get_json(self) -> str:
+    def get_json(self):
         pass

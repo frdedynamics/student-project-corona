@@ -37,12 +37,6 @@ class SIR(IModel):
         self._result = None
         self._json = None
 
-
-    # def __sanity_check_inputs(self):
-    #     if not False:
-    #         _LOGGER.error("Inputs are insane!")
-    #         raise ValueError
-
     def __f(self, y, t):
         s, i, r = y
 
@@ -90,4 +84,3 @@ class SIR(IModel):
             plt.show(block=False)
         elif config.get("show_plots"):
             plt.show(block=True)
-

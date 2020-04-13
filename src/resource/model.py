@@ -30,7 +30,7 @@ def get_parser_arguements():
 
 
 DEFAULT_VALUES = get_default_model_values()  # type: dict
-MODEL_PARSER = get_parser_arguements() # type: dict
+MODEL_PARSER = get_parser_arguements()  # type: dict
 NOT_IMPLEMENTED = {'message': 'resource not implemented'}, 501
 SUCCESS = "response"
 
@@ -53,7 +53,7 @@ class Model(Resource):
             model_class = getattr(src.models, model_name)
             data = MODEL_PARSER[model_name].parse_args()
             instance = model_class(**dict(data))  # type: IModel
-            return {SUCCESS: json.loads(instance.get_json())}  # TODO json -> dict -> json
+            return {SUCCESS: json.loads(instance.get_json())}
         except AttributeError:
             return {'message': f'No model named {model_name}.'}, 400
 

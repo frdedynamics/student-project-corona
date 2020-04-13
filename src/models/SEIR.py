@@ -24,8 +24,8 @@ class SEIR(IModel):
         self.total_population = total_population
         self.S_0 = 1 - 1/total_population
         self.E_0 = 1/total_population
-        self.I_0 = 0
-        self.R_0 = 0
+        self.I_0 = 0.0
+        self.R_0 = 0.0
         self.duration_days = duration_days
         self.timestep_days = timestep_days
 

@@ -44,4 +44,3 @@ class TestSIR(TestCase):
             self.model_sir.plot_result()
         except ValueError as e:
             self.fail(msg=e)
-

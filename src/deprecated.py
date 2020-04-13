@@ -8,7 +8,6 @@ from app import app, _LOGGER
 
 CORS(app)
 
-
 USERS = {  # deprecated for current branch
     "john": "hello"
 }

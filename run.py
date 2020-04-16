@@ -1,7 +1,7 @@
 from app import app as application
 from src.database import db
 
-db.init(application)
+db.init_app(application)
 
 
 @application.before_first_request

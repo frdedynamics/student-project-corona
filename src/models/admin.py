@@ -23,4 +23,4 @@ class AdminModel(db.Model):
 
     @classmethod
     def find_by_id(cls, user_id) -> AdminModel:
-        return cls.query.filter_by(user_id=user_id).first()
+        return cls.query.get(user_id)

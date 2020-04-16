@@ -1,25 +1,33 @@
 import logging
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 from pandas import DataFrame
+
 from src.config import get_config
+from .imodel import IModel
 
 config = get_config()
 _LOGGER = logging.getLogger(__name__)
 logging.getLogger('matplotlib').setLevel('ERROR')
 
 
-class SEIR:
+class SEIR(IModel):
+    LOCALS = None
 
     def __init__(self, total_population=10000, duration_days=100, timestep_days=0.1,
                  alpha=0.2, beta=1.75, gamma=0.5, rho=0.8):
         _LOGGER.debug("Initialize..")
 
+        if self.LOCALS is None:
+            self.LOCALS = locals()
+            del self.LOCALS['self']
+
         self.total_population = total_population
         self.S_0 = 1 - 1/total_population
         self.E_0 = 1/total_population
-        self.I_0 = 0
-        self.R_0 = 0
+        self.I_0 = 0.0
+        self.R_0 = 0.0
         self.duration_days = duration_days
         self.timestep_days = timestep_days
 
@@ -57,7 +65,7 @@ class SEIR:
             R.append(next_R)
             self._result[result_index] = np.array([S, E, I, R]).T
 
-    def get_json(self, social_distancing):
+    def get_json(self, social_distancing=False):
         _LOGGER.debug("Json..")
         index = 1 if social_distancing else 0
         if self._result[index] is None:

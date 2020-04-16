@@ -1,5 +1,5 @@
 from unittest import TestCase
-import src
+from src.models.SIR import SIR
 
 
 class TestSIR(TestCase):
@@ -14,7 +14,7 @@ class TestSIR(TestCase):
         duration_days = 365
         timestep_days = 1
 
-        self.model_sir = src.models.SIR(
+        self.model_sir = SIR(
             total_population=total_population,
             I_0=I_0,
             R_0=R_0,

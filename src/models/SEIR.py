@@ -1,7 +1,9 @@
 import logging
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 from pandas import DataFrame
+
 from src.config import get_config
 from .imodel import IModel
 

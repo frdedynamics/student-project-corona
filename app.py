@@ -1,3 +1,4 @@
+
 import logging
 import datetime
 from src.config import get_config
@@ -7,9 +8,10 @@ from flask_restful import Api
 from flask_jwt import JWT
 
 from src.authorization import authenticate, identity
-from src.resources.model import SampleModel, Model, DefaultValues
+from src.resources.model import SampleModel, Model, DefaultValuesList
 from src.database import db
-from src.resources.user import UserRegister
+from src.resources.user import UserRegister, UserList
+from src.resources.admin import Admin
 
 CONFIG = get_config()
 _LOGGER = logging.getLogger(__name__)
@@ -39,8 +41,10 @@ jwt = JWT(app, authenticate, identity)  # /auth with {"username": "john", "passw
 # resources
 api.add_resource(SampleModel, '/model/<string:model_name>/sample')
 api.add_resource(Model, '/model/<string:model_name>')
-api.add_resource(DefaultValues, '/model')
+api.add_resource(DefaultValuesList, '/models')
 api.add_resource(UserRegister, '/register')
+api.add_resource(UserList, '/users')
+api.add_resource(Admin, '/admin/<string:username>')
 
 
 if __name__ == '__main__':

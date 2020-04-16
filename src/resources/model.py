@@ -4,7 +4,7 @@ from flask_jwt import jwt_required
 from flask_restful import reqparse, Resource
 
 import src
-from src import IModel
+from src.models.imodel import IModel
 
 
 def get_default_model_values():
@@ -32,7 +32,6 @@ def get_parser_arguements():
 DEFAULT_VALUES = get_default_model_values()  # type: dict
 MODEL_PARSER = get_parser_arguements()  # type: dict
 NOT_IMPLEMENTED = {'message': 'resources not implemented'}, 501
-SUCCESS = "response"
 
 
 class SampleModel(Resource):
@@ -40,8 +39,8 @@ class SampleModel(Resource):
     def get(self, model_name):
         try:
             model_class = getattr(src.models, model_name)
-            model = model_class()  # type: src.IModel
-            return {SUCCESS: json.loads(model.get_json())}  # TODO change return object
+            model = model_class()  # type: IModel
+            return {'model': json.loads(model.get_json())}  # TODO change return object
         except AttributeError:
             return {'message': f'No model named {model_name}.'}, 400
 
@@ -53,13 +52,13 @@ class Model(Resource):
             model_class = getattr(src.models, model_name)
             data = MODEL_PARSER[model_name].parse_args()
             instance = model_class(**dict(data))  # type: IModel
-            return {SUCCESS: json.loads(instance.get_json())}
+            return {'model': json.loads(instance.get_json())}
         except AttributeError:
             return {'message': f'No model named {model_name}.'}, 400
 
     @jwt_required()
     def get(self, model_name):  # return default model values
-        return {SUCCESS: DEFAULT_VALUES[model_name]} if model_name in DEFAULT_VALUES \
+        return {'default_values': DEFAULT_VALUES[model_name]} if model_name in DEFAULT_VALUES \
                    else ({'message': f'No model named {model_name}.'}, 400)
 
 
@@ -68,7 +67,7 @@ class ModelData(Resource):
         return NOT_IMPLEMENTED
 
 
-class DefaultValues(Resource):
+class DefaultValuesList(Resource):
     @jwt_required()
     def get(self):
-        return {SUCCESS: DEFAULT_VALUES}
+        return {'default_values': DEFAULT_VALUES}

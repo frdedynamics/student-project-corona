@@ -26,3 +26,9 @@ class UserRegister(Resource):
         user.save()
 
         return {"message": f"User {username} registered."}, 201
+
+
+class UserList(Resource):
+    def get(self):
+        return {'users': [user.json() for user in UserModel.query.all()]}
+

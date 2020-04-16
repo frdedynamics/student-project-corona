@@ -1,6 +1,7 @@
-from .config import get_config
 import logging
+
 from src.models.user import UserModel
+from .config import get_config
 
 CONFIG = get_config()
 _LOGGER = logging.getLogger(__name__)

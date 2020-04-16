@@ -1,9 +1,11 @@
 import logging
-import numpy as np
+
 import matplotlib.pyplot as plt
-from scipy.integrate import odeint
-from src.config import get_config
+import numpy as np
 from pandas import DataFrame
+from scipy.integrate import odeint
+
+from src.config import get_config
 from .imodel import IModel
 
 config = get_config()

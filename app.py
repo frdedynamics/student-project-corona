@@ -7,6 +7,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 
+from src.database import db
 from src.authorization import authenticate, identity
 from src.resources.model import SampleModel, Model, DefaultValuesList
 from src.resources.user import UserRegister, UserList
@@ -47,7 +48,6 @@ api.add_resource(Admin, '/admin/<string:username>')
 
 
 if __name__ == '__main__':
-    from src.database import db
     _LOGGER.debug('Starting')
     db.init_app(app)
     app.run()

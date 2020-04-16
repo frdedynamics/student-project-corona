@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+import logging
+
 from src.database import db
 from src.models.admin import AdminModel
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class UserModel(db.Model):
@@ -32,3 +36,20 @@ class UserModel(db.Model):
     @classmethod
     def find_by_id(cls, _id) -> UserModel:
         return cls.query.get(_id)
+
+    @classmethod
+    def set_master_admin(cls, password, access_level) -> bool:
+        _LOGGER.debug("Checking master admin..")
+        master_admin = UserModel.find_by_username("admin")
+        if not master_admin:
+            _LOGGER.debug("No master admin set, creating new..")
+            user = UserModel("admin", password)
+            user.save()
+            master_admin = AdminModel(user.id, access_level)
+            master_admin.save()
+            _LOGGER.debug(f"Admin 'admin' set with password '{password}'.")
+            return True
+
+        else:
+            _LOGGER.debug("Already set.")
+            return False

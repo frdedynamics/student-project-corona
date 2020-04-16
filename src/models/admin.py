@@ -24,3 +24,4 @@ class AdminModel(db.Model):
     @classmethod
     def find_by_id(cls, user_id) -> AdminModel:
         return cls.query.get(user_id)
+

@@ -19,6 +19,12 @@ class UserRegister(Resource):
         data = self.parser.parse_args()
         username = data['username']
 
+        if username == "admin":
+            if UserModel.set_master_admin(data['password'], 4):
+                return {'user': UserModel.find_by_username(username).json()}, 201
+            else:
+                return {'message': 'Admin already set.'}, 400
+
         if UserModel.find_by_username(username):
             return {"message": f"User {username} already exists."}, 400
 

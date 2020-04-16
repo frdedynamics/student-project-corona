@@ -9,7 +9,6 @@ from flask_jwt import JWT
 
 from src.authorization import authenticate, identity
 from src.resources.model import SampleModel, Model, DefaultValuesList
-from src.database import db
 from src.resources.user import UserRegister, UserList
 from src.resources.admin import Admin
 
@@ -48,6 +47,7 @@ api.add_resource(Admin, '/admin/<string:username>')
 
 
 if __name__ == '__main__':
+    from src.database import db
     _LOGGER.debug('Starting')
     db.init_app(app)
     app.run()

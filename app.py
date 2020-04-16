@@ -1,3 +1,4 @@
+
 import logging
 import datetime
 from src.config import get_config
@@ -6,12 +7,11 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 
+from src.authorization import authenticate, identity
 from src.resources.model import SampleModel, Model, DefaultValuesList
+from src.database import db
 from src.resources.user import UserRegister, UserList
 from src.resources.admin import Admin
-from src.authorization import authenticate, identity
-from src.database import db
-
 
 CONFIG = get_config()
 _LOGGER = logging.getLogger(__name__)

@@ -1,5 +1,6 @@
-from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required, current_identity
+from flask_restful import Resource, reqparse
+
 from src.models.admin import AdminModel
 from src.models.user import UserModel
 

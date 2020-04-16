@@ -1,15 +1,20 @@
 import json
+import logging
 
 from flask_jwt import jwt_required
 from flask_restful import reqparse, Resource
 
 import src
 from src.models.imodel import IModel
+import src.models.imodel
+
+_LOGGER = logging.getLogger(__name__)
 
 
 def get_default_model_values():
     models = dict()
     for model in IModel.__subclasses__():
+        print("test " + model.__name__)
         instance = model()
         models[model.__name__] = instance.LOCALS
     return models
@@ -30,6 +35,7 @@ def get_parser_arguements():
 
 
 DEFAULT_VALUES = get_default_model_values()  # type: dict
+print("default values")
 MODEL_PARSER = get_parser_arguements()  # type: dict
 NOT_IMPLEMENTED = {'message': 'resources not implemented'}, 501
 
@@ -39,6 +45,7 @@ class SampleModel(Resource):
     def get(self, model_name):
         try:
             model_class = getattr(src.models, model_name)
+            print("test " + model_class)
             model = model_class()  # type: IModel
             return {'model': json.loads(model.get_json())}  # TODO change return object
         except AttributeError:
@@ -51,6 +58,7 @@ class Model(Resource):
         try:
             model_class = getattr(src.models, model_name)
             data = MODEL_PARSER[model_name].parse_args()
+
             instance = model_class(**dict(data))  # type: IModel
             return {'model': json.loads(instance.get_json())}
         except AttributeError:

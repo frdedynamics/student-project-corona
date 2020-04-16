@@ -3,8 +3,9 @@ import json
 from flask import request, abort
 from flask_cors import CORS
 
-import src
 from app import app, _LOGGER
+from src.models.SEIR import SEIR
+from src.models.SIR import SIR
 
 CORS(app)
 
@@ -40,7 +41,7 @@ def get_corona_data(param=None):
         tmp = param
 
     if tmp["model_type"] == 'SIR':
-        mdl = src.SIR(
+        mdl = SIR(
             total_population=tmp["total_population"],
             I_0=tmp["I_0"],
             R_0=tmp["R_0"],
@@ -55,7 +56,7 @@ def get_corona_data(param=None):
         _LOGGER.debug('Returning ' + tmp["model_type"] + ' result.')
         return mdl.get_json()
     elif tmp["model_type"] == 'SEIR':
-        mdl = src.models.SEIR(
+        mdl = SEIR(
             total_population=tmp["total_population"],
             duration_days=tmp["duration_days"],
             timestep_days=tmp["timestep_days"],

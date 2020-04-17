@@ -4,7 +4,7 @@ from src.database import db
 
 
 class AdminModel(db.Model):
-    __tabelname__ = 'admin'
+    __tablename__ = 'admin'
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     access_level = db.Column(db.Integer, nullable=False)
 

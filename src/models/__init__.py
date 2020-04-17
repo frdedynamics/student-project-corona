@@ -4,3 +4,4 @@ from .SEIR import SEIR
 from .imodel import IModel
 from .user import UserModel
 from .admin import AdminModel
+from .plot import PlotModel

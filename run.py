@@ -1,5 +1,5 @@
-# uwsgi
-from app import app as app
+# run by uwsgi
+from app import app
 from src.database import db
 
 db.init_app(app)

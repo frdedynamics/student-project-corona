@@ -1,4 +1,4 @@
-
+import os
 import logging
 import datetime
 from src.config import get_config
@@ -28,7 +28,8 @@ app.config['PROPAGATE_EXCEPTIONS'] = True
 
 # database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///src/data.db'
+# use environment database if available (postgres on heroku)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///src/data.db')
 
 
 @app.before_first_request

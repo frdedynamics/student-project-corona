@@ -15,12 +15,15 @@ class UserModel(db.Model):
     username = db.Column(db.String(30), unique=True)
     password = db.Column(db.String(30))
 
+    plots = db.relationship('PlotModel', lazy='dynamic')  # type: list
+
     def __init__(self, username, password):
         self.username = username
         self.password = password
 
     def json(self):
-        return {'user': self.username, 'is_admin': (self.is_admin() is not None)}
+        return {'user': self.username, 'is_admin': (self.is_admin() is not None),
+                'plots': [plot.id for plot in self.plots]}
 
     def save(self):
         db.session.add(self)

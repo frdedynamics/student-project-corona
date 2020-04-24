@@ -47,8 +47,8 @@ api.add_resource(UserRegister, '/register')
 api.add_resource(UserList, '/users')
 api.add_resource(Admin, '/admin/<string:username>')
 
+db.init_app(app)
 
 if __name__ == '__main__':
     _LOGGER.debug('Starting')
-    db.init_app(app)
     app.run()

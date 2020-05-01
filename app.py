@@ -6,6 +6,7 @@ from src.config import get_config
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
+from flask_cors import CORS
 
 from src.database import db
 from src.authorization import authenticate, identity

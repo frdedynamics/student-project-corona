@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 api = Api(app)
-
+CORS(app)
 
 # auth
 app.secret_key = 'topsecret'

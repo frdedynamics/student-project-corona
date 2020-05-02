@@ -1,5 +1,5 @@
 from unittest import TestCase
-import src
+from src.models.SEIR import SEIR
 
 
 class TestSEIR(TestCase):
@@ -14,7 +14,7 @@ class TestSEIR(TestCase):
         gamma = 0.5
         rho = 0.7
 
-        self.model_seir = src.models.SEIR(
+        self.model_seir = SEIR(
             total_population=total_population,
             duration_days=duration_days,
             timestep_days=timestep_days,

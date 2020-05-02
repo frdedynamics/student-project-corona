@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Run Unit Tests
           command: |
-            pytest --cov=src --cov=test
+            pytest --cov=src --cov=test --cov-report term-missing
             flake8 . --exit-zero
       - save_cache:
           paths:
@@ -41,10 +41,10 @@ jobs:
       - run:
           name: Run Unit Tests
           command: |
-            py -m pytest --cov=src --cov=test
+            py -m pytest --cov=src --cov=test --cov-report term-missing
             py -m flake8 . --exit-zero
 workflows:
   build-test:
     jobs:
       - build-linux
-      - build-windows
+      # - build-windows

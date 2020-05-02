@@ -1,8 +1,9 @@
-import logging
-import tzlocal
 import json
+import logging
 import os
 from datetime import datetime
+
+import tzlocal
 from colorlog import ColoredFormatter
 
 

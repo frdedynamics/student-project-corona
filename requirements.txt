@@ -11,3 +11,8 @@ pytest-cov
 coveralls
 flask
 flask-cors
+flask_restful
+flask_jwt
+flask_sqlalchemy
+uwsgi
+psycopg2

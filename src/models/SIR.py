@@ -1,21 +1,30 @@
 import logging
-import numpy as np
+
 import matplotlib.pyplot as plt
-from scipy.integrate import odeint
-from src.config import get_config
+import numpy as np
 from pandas import DataFrame
+from scipy.integrate import odeint
+
+from src.config import get_config
+from .imodel import IModel
 
 config = get_config()
 _LOGGER = logging.getLogger(__name__)
 logging.getLogger('matplotlib').setLevel('ERROR')
 
 
-class SIR:
+class SIR(IModel):
+    LOCALS = None
 
     def __init__(self, total_population=5000000, I_0=1000, R_0=0,
                  average_number_of_people_infected_per_day_per_person=0.2, average_days_sick_per_person=7,
                  duration_days=365, timestep_days=1):
         _LOGGER.debug("Initialize..")
+
+        if self.LOCALS is None:
+            self.LOCALS = locals()
+            del self.LOCALS['self']
+
         self.S_0 = total_population - I_0 - R_0
         self.I_0 = I_0
         self.R_0 = R_0
@@ -29,11 +38,6 @@ class SIR:
         self._t = np.linspace(start=1, stop=self.duration_days, num=self._number_of_timesteps)
         self._result = None
         self._json = None
-
-    # def __sanity_check_inputs(self):
-    #     if not False:
-    #         _LOGGER.error("Inputs are insane!")
-    #         raise ValueError
 
     def __f(self, y, t):
         s, i, r = y

@@ -6,6 +6,7 @@ from src.config import get_config
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
+from flask_cors import CORS
 
 from src.database import db
 from src.authorization import authenticate, identity
@@ -19,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 api = Api(app)
-
+CORS(app)
 
 # auth
 app.secret_key = 'topsecret'
